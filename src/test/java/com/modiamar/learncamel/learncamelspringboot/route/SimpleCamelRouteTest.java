@@ -130,4 +130,19 @@ public class SimpleCamelRouteTest {
         assertEquals(expectedOutput, output);
 
     }
+
+    @Test
+    public void testMoveFiles_NoSkuException() throws InterruptedException, IOException {
+        String message = "type,sku#,itemdescription,price\n" +
+                "ADD,,Flapper Valve,66\n" +
+                "ADD,50,Socks,2";
+        String fileName = "fileException.txt";
+
+        producerTemplate.sendBodyAndHeader(fileConfiguration.getInputFile(), message, Exchange.FILE_NAME, fileName);
+        Thread.sleep(3000);
+
+        File successFile = new File("data/output/" + "Success.txt");
+        assertTrue(successFile.exists());
+
+    }
 }
