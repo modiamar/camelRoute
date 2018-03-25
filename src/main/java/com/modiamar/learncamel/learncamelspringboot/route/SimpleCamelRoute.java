@@ -1,12 +1,19 @@
 package com.modiamar.learncamel.learncamelspringboot.route;
 
 import com.modiamar.learncamel.learncamelspringboot.domain.Item;
+import com.modiamar.learncamel.learncamelspringboot.route.processor.BuildSQLProcessor;
+import com.modiamar.learncamel.learncamelspringboot.route.processor.SuccessProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.spi.DataFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import javax.sql.DataSource;
+import java.util.Date;
 
 @Component
 @Slf4j
@@ -14,10 +21,19 @@ public class SimpleCamelRoute extends RouteBuilder {
 
     private FileConfiguration fileConfiguration;
     private Environment environment;
+    private BuildSQLProcessor buildSQLProcessor;
+    private SuccessProcessor successProcessor;
 
-    public SimpleCamelRoute(FileConfiguration fileConfiguration, Environment environment) {
+    @Qualifier("postgresDataSource")
+    private DataSource dataSource;
+
+    public SimpleCamelRoute(FileConfiguration fileConfiguration, Environment environment, BuildSQLProcessor buildSQLProcessor,
+                            SuccessProcessor successProcessor, DataSource dataSource) {
         this.fileConfiguration = fileConfiguration;
         this.environment = environment;
+        this.buildSQLProcessor = buildSQLProcessor;
+        this.successProcessor = successProcessor;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -39,7 +55,11 @@ public class SimpleCamelRoute extends RouteBuilder {
                 .log("Unmarshalled object is ${body}") // Will print out the POJO (each)
                 .split(body())
                     .log("Record is ${body}")
-                .end();
+                    .process(buildSQLProcessor) //This is the object we created implements Processor DOES ALL SQL Logic
+                    .to(fileConfiguration.getJdbcDataSource()) //REMEMBER: This needs to be the Bean name you defined!
+                .end()
+        .process(successProcessor)
+        .to(fileConfiguration.getSuccessRoute());
         log.info("Ending the camel route");
     }
 }

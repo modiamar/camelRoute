@@ -1,51 +1,78 @@
 spring :
   profiles :
     active : dev
+
 server.port : 8094
 camel.springboot.shutdownTimeout : 2
 ---
 spring:
   profiles: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/localDB
+    username: postgres
+    password: modi094237
+
   camel:
       external :
         properties :
           inputFile : file:data/input?delete=true&readLock=none
           outputFile : file:data/output
           timerTime: timer:hello?period=10s
+          jdbcDataSource: jdbc:dataSource
+          successRoute: file:data/output?fileName=Success.txt
 message: DEV ENV
 
 
 ---
 spring:
   profiles: mock
+
   camel:
       external :
         properties :
           inputFile : file:data/input?delete=true&readLock=none
           outputFile : mock:output
           timerTime: direct:input
+          jdbcDataSource: jdbc:postgresDataSource
 message: DEV ENV
 
 
 ---
 spring:
   profiles: stage
-  camel:
+  datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/localDB
+      username: postgres
+      password: modi094237
+
+    camel:
         external :
           properties :
             inputFile : file:data/input?delete=true&readLock=none
-            outputFile : file:data/stage/output
+            outputFile : file:data/output
             timerTime: timer:hello?period=10s
+            jdbcDataSource: jdbc:dataSource
+            successRoute: file:data/output?fileName=Success.txt
 
 message: STAGE ENV
 ---
 
 spring:
   profiles: prod
-  camel:
+  datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/localDB
+      username: postgres
+      password: modi094237
+
+    camel:
         external :
           properties :
             inputFile : file:data/input?delete=true&readLock=none
-            outputFile : file:data/prod/output
+            outputFile : file:data/output
             timerTime: timer:hello?period=10s
+            jdbcDataSource: jdbc:dataSource
+            successRoute: file:data/output?fileName=Success.txt
 message: PROD ENV

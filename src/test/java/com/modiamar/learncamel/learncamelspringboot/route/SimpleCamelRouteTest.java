@@ -9,13 +9,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(CamelSpringBootRunner.class)
@@ -29,6 +36,10 @@ public class SimpleCamelRouteTest {
 
     @Autowired
     FileConfiguration fileConfiguration;
+
+    @Autowired
+    @Qualifier("localJdbcTemplate")
+    private JdbcTemplate jdbcTemplate;
 
     @BeforeClass
     public static void startCleanUp() throws IOException {
@@ -45,11 +56,34 @@ public class SimpleCamelRouteTest {
                 "ADD,100,Flapper Valve,66\n" +
                 "ADD,50,Socks,2";
         String fileName = "fileTest.txt";
+
         producerTemplate.sendBodyAndHeader(fileConfiguration.getInputFile(), message, Exchange.FILE_NAME, fileName);
         Thread.sleep(3000);
+
         File outfile = new File("data/output/" + fileName);
         assertTrue(outfile.exists());
     }
 
+    @Test
+    public void testMoveFiles_ADD() throws InterruptedException, IOException {
+        String message = "type,sku#,itemdescription,price\n" +
+                "ADD,100,Flapper Valve,66\n" +
+                "ADD,50,Socks,2";
+        String fileName = "fileTest.txt";
 
+        producerTemplate.sendBodyAndHeader(fileConfiguration.getInputFile(), message, Exchange.FILE_NAME, fileName);
+        Thread.sleep(3000);
+
+        File outfile = new File("data/output/" + fileName);
+        assertTrue(outfile.exists());
+
+        List<Map<String, Object>> list = jdbcTemplate.queryForList("SELECT * FROM ITEMS");
+        assertTrue(!list.isEmpty());
+
+        String expectedOutput = "Data Updated Successfully";
+        byte[] readFilePath = Files.readAllBytes(Paths.get("data/output/Success.txt"));
+        String output = new String(readFilePath);
+        assertEquals(expectedOutput, output);
+
+    }
 }

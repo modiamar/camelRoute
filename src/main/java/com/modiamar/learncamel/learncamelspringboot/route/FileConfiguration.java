@@ -15,6 +15,26 @@ public class FileConfiguration {
 
     private String timerTime;
 
+    private String jdbcDataSource;
+
+    private String successRoute;
+
+    public String getSuccessRoute() {
+        return successRoute;
+    }
+
+    public void setSuccessRoute(String successRoute) {
+        this.successRoute = successRoute;
+    }
+
+    public String getJdbcDataSource() {
+        return jdbcDataSource;
+    }
+
+    public void setJdbcDataSource(String jdbcDataSource) {
+        this.jdbcDataSource = jdbcDataSource;
+    }
+
     public String getInputFile() {
         return inputFile;
     }
