@@ -23,8 +23,13 @@ public class BuildSQLProcessor implements org.apache.camel.Processor {
                 query.append(item.getPrice() + ")");
                 break;
             case "UPDATE":
+                query.append("UPDATE ITEMS SET PRICE = '");
+                query.append(item.getPrice() + "'");
+                query.append("WHERE SKU_NUMBER = '" + item.getSkuNumber() + "'");
                 break;
             case "DELETE":
+                query.append("DELETE FROM ITEMS WHERE SKU_NUMBER = '");
+                query.append(item.getSkuNumber() + "'");
                 break;
         }
         log.info("Statement is {}", query);

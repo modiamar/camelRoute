@@ -23,8 +23,6 @@ public class SimpleCamelRoute extends RouteBuilder {
     private Environment environment;
     private BuildSQLProcessor buildSQLProcessor;
     private SuccessProcessor successProcessor;
-
-    @Qualifier("postgresDataSource")
     private DataSource dataSource;
 
     public SimpleCamelRoute(FileConfiguration fileConfiguration, Environment environment, BuildSQLProcessor buildSQLProcessor,

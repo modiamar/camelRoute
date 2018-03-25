@@ -11,7 +11,7 @@ public class SuccessProcessor implements org.apache.camel.Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        log.info("Route completed successfully!");
+        log.info("Data Updated Successfully");
         exchange.getIn().setBody("Data Updated Successfully");
     }
 }

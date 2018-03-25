@@ -51,4 +51,23 @@ public class SimpleCamelRouteMockTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
+
+    @Test
+    public void testMockFileMoveAndDB() throws InterruptedException {
+        String message = "type,sku#,itemdescription,price\n" +
+                "ADD,100,Flapper Valve,66\n" +
+                "ADD,50,Socks,2";
+        String successMessage = "Data Updated Successfully";
+
+        MockEndpoint mockEndpoint = getMockEndpoint(fileConfiguration.getOutputFile());
+        mockEndpoint.expectedMessageCount(1);
+        mockEndpoint.expectedBodiesReceived(message);
+
+        MockEndpoint successMockEndpoint = getMockEndpoint(fileConfiguration.getSuccessRoute()); // What is the endpoint
+        successMockEndpoint.expectedMessageCount(1); // How times will it hit
+        successMockEndpoint.expectedBodiesReceived(successMessage); // Assert what the expectedValue is
+
+        producerTemplate.sendBodyAndHeader(fileConfiguration.getTimerTime(),message , "env", environment.getProperty("spring.profiles.active"));
+        assertMockEndpointsSatisfied();
+    }
 }

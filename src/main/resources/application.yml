@@ -34,7 +34,8 @@ spring:
           inputFile : file:data/input?delete=true&readLock=none
           outputFile : mock:output
           timerTime: direct:input
-          jdbcDataSource: jdbc:postgresDataSource
+          jdbcDataSource: mock:output1
+          successRoute: mock:output2
 message: DEV ENV
 
 
@@ -47,14 +48,14 @@ spring:
       username: postgres
       password: modi094237
 
-    camel:
-        external :
-          properties :
-            inputFile : file:data/input?delete=true&readLock=none
-            outputFile : file:data/output
-            timerTime: timer:hello?period=10s
-            jdbcDataSource: jdbc:dataSource
-            successRoute: file:data/output?fileName=Success.txt
+  camel:
+      external :
+        properties :
+          inputFile : file:data/input?delete=true&readLock=none
+          outputFile : file:data/output
+          timerTime: timer:hello?period=10s
+          jdbcDataSource: jdbc:dataSource
+          successRoute: file:data/output?fileName=Success.txt
 
 message: STAGE ENV
 ---
@@ -67,12 +68,12 @@ spring:
       username: postgres
       password: modi094237
 
-    camel:
-        external :
-          properties :
-            inputFile : file:data/input?delete=true&readLock=none
-            outputFile : file:data/output
-            timerTime: timer:hello?period=10s
-            jdbcDataSource: jdbc:dataSource
-            successRoute: file:data/output?fileName=Success.txt
+  camel:
+      external :
+        properties :
+          inputFile : file:data/input?delete=true&readLock=none
+          outputFile : file:data/output
+          timerTime: timer:hello?period=10s
+          jdbcDataSource: jdbc:dataSource
+          successRoute: file:data/output?fileName=Success.txt
 message: PROD ENV
