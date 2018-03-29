@@ -45,6 +45,7 @@ public class SimpleCamelRouteTest {
     public static void startCleanUp() throws IOException {
         FileUtils.cleanDirectory(new File("data/input"));
         FileUtils.deleteDirectory(new File("data/output"));
+        FileUtils.deleteDirectory(new File("data/input/error"));
     }
 
     @Test
@@ -141,8 +142,7 @@ public class SimpleCamelRouteTest {
         producerTemplate.sendBodyAndHeader(fileConfiguration.getInputFile(), message, Exchange.FILE_NAME, fileName);
         Thread.sleep(3000);
 
-        File successFile = new File("data/output/" + "Success.txt");
-        assertTrue(successFile.exists());
-
+        File errorFile = new File("data/input/error");
+        assertTrue(errorFile.exists());
     }
 }

@@ -1,3 +1,0 @@
-type,sku#,itemdescription,price
-ADD,100,Flapper Valve,66
-ADD,50,Socks,2

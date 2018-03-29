@@ -16,7 +16,7 @@ spring:
   camel:
       external :
         properties :
-          inputFile : file:data/input?delete=true&readLock=none
+          inputFile : file:data/input?delete=true&readLock=none&moveFailed=error
           outputFile : file:data/output
           timerTime: timer:hello?period=10s
           jdbcDataSource: jdbc:dataSource
@@ -51,7 +51,7 @@ spring:
   camel:
       external :
         properties :
-          inputFile : file:data/input?delete=true&readLock=none
+          inputFile : file:data/input?delete=true&readLock=none&moveFailed=error
           outputFile : file:data/output
           timerTime: timer:hello?period=10s
           jdbcDataSource: jdbc:dataSource
@@ -71,7 +71,7 @@ spring:
   camel:
       external :
         properties :
-          inputFile : file:data/input?delete=true&readLock=none
+          inputFile : file:data/input?delete=true&readLock=none&moveFailed=error
           outputFile : file:data/output
           timerTime: timer:hello?period=10s
           jdbcDataSource: jdbc:dataSource

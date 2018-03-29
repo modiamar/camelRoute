@@ -9,6 +9,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.spi.DataFormat;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
@@ -45,13 +46,20 @@ public class SimpleCamelRoute extends RouteBuilder {
         //We are telling Camel to use the deadLetterChannel instead of Default Handler
         // Handle this exception, BUT dont stop the route
         // If retry, then it WILL stop the route
-//        errorHandler(deadLetterChannel("log:errorInRoute?level=ERROR&showProperties=true")
-//                            .maximumRedeliveries(3)
-//                            .redeliveryDelay(3000)
-//                            .backOffMultiplier(2)
-//                            .retryAttemptedLogLevel(LoggingLevel.ERROR));
+        errorHandler(deadLetterChannel("log:errorInRoute?level=ERROR&showProperties=true")
+                .maximumRedeliveries(3)
+                .redeliveryDelay(3000)
+                .backOffMultiplier(2)
+                .retryAttemptedLogLevel(LoggingLevel.ERROR));
 
-        onException(DataException.class).log(LoggingLevel.ERROR, "Exception in the route ${body}");
+        onException(PSQLException.class).log(LoggingLevel.ERROR,"PSQLException in the route ${body}")
+                .maximumRedeliveries(3)
+                .redeliveryDelay(3000)
+                .backOffMultiplier(2)
+                .retryAttemptedLogLevel(LoggingLevel.ERROR);
+
+        onException(DataException.class).log(LoggingLevel.ERROR, "DataException in the route ${body}");
+
 
         from(fileConfiguration.getTimerTime())
                 .log("Timer invoked and the body is " + environment.getProperty("message"))
