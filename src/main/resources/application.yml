@@ -2,8 +2,18 @@ spring :
   profiles :
     active : dev
 
-server.port : 8094
-camel.springboot.shutdownTimeout : 2
+server:
+  port : 8095
+
+camel:
+  springboot:
+    shutdownTimeout : 2
+    health.indicator.enabled: true
+
+management:
+  security:
+    enable: false
+
 ---
 spring:
   profiles: dev
@@ -12,7 +22,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/localDB
     username: postgres
     password: modi094237
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mailsender1256@gmail.com
+    password: modi094237
+    properties.mail.smtp.auth:  true
+    properties.mail.smtp.starttls.enable: true
+    mailTo: mailsender1256@gmail.com
+    mailFrom: mailsender1256@gmail.com
   camel:
       external :
         properties :
@@ -21,13 +39,15 @@ spring:
           timerTime: timer:hello?period=10s
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
+          healthRoute: timer:healthRoute?period=10s
+
+
 message: DEV ENV
 
 
 ---
 spring:
   profiles: mock
-
   camel:
       external :
         properties :
@@ -36,6 +56,16 @@ spring:
           timerTime: direct:input
           jdbcDataSource: mock:output1
           successRoute: mock:output2
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: mailsender1256@gmail.com
+      password: modi094237
+      properties.mail.smtp.auth:  true
+      properties.mail.smtp.starttls.enable: true
+      mailTo: mailsender1256@gmail.com
+      mailFrom: mailsender1256@gmail.com
+
 message: DEV ENV
 
 
@@ -47,6 +77,16 @@ spring:
       url: jdbc:postgresql://localhost:5432/localDB
       username: postgres
       password: modi094237
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: mailsender1256@gmail.com
+      password: modi094237
+      properties.mail.smtp.auth:  true
+      properties.mail.smtp.starttls.enable: true
+      mailTo: mailsender1256@gmail.com
+      mailFrom: mailsender1256@gmail.com
+
 
   camel:
       external :
@@ -67,6 +107,16 @@ spring:
       url: jdbc:postgresql://localhost:5432/localDB
       username: postgres
       password: modi094237
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mailsender1256@gmail.com
+    password: modi094237
+    properties.mail.smtp.auth:  true
+    properties.mail.smtp.starttls.enable: true
+    mailTo: mailsender1256@gmail.com
+    mailFrom: mailsender1256@gmail.com
+
 
   camel:
       external :

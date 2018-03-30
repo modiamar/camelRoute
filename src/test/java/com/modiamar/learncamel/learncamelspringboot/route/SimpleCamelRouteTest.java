@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.test.spring.CamelSpringBootRunner;
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -135,14 +136,17 @@ public class SimpleCamelRouteTest {
     @Test
     public void testMoveFiles_NoSkuException() throws InterruptedException, IOException {
         String message = "type,sku#,itemdescription,price\n" +
-                "ADD,,Flapper Valve,66\n" +
-                "ADD,50,Socks,2";
-        String fileName = "fileException.txt";
+                "ADD,,Samsung TV,500\n" +
+                "ADD,101,LG TV,500";
+        String fileName="fileTest.txt";
 
         producerTemplate.sendBodyAndHeader(fileConfiguration.getInputFile(), message, Exchange.FILE_NAME, fileName);
-        Thread.sleep(3000);
 
-        File errorFile = new File("data/input/error");
-        assertTrue(errorFile.exists());
+        Thread.sleep(5000);
+
+        File outFile = new File("data/output/"+fileName);
+        Assert.assertTrue(outFile.exists());
+        File errorDirectory = new File("data/input/error");
+        Assert.assertTrue(errorDirectory.exists());
     }
 }

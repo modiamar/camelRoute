@@ -1,5 +1,6 @@
 package com.modiamar.learncamel.learncamelspringboot.route;
 
+import com.modiamar.learncamel.learncamelspringboot.alert.MailProcessor;
 import com.modiamar.learncamel.learncamelspringboot.domain.Item;
 import com.modiamar.learncamel.learncamelspringboot.route.exceptions.DataException;
 import com.modiamar.learncamel.learncamelspringboot.route.processor.BuildSQLProcessor;
@@ -27,14 +28,17 @@ public class SimpleCamelRoute extends RouteBuilder {
     private BuildSQLProcessor buildSQLProcessor;
     private SuccessProcessor successProcessor;
     private DataSource dataSource;
+    private MailProcessor mailProcessor;
 
-    public SimpleCamelRoute(FileConfiguration fileConfiguration, Environment environment, BuildSQLProcessor buildSQLProcessor,
-                            SuccessProcessor successProcessor, DataSource dataSource) {
+    public SimpleCamelRoute(FileConfiguration fileConfiguration, Environment environment,
+                            BuildSQLProcessor buildSQLProcessor, SuccessProcessor successProcessor,
+                            DataSource dataSource, MailProcessor mailProcessor) {
         this.fileConfiguration = fileConfiguration;
         this.environment = environment;
         this.buildSQLProcessor = buildSQLProcessor;
         this.successProcessor = successProcessor;
         this.dataSource = dataSource;
+        this.mailProcessor = mailProcessor;
     }
 
     @Override
@@ -46,11 +50,11 @@ public class SimpleCamelRoute extends RouteBuilder {
         //We are telling Camel to use the deadLetterChannel instead of Default Handler
         // Handle this exception, BUT dont stop the route
         // If retry, then it WILL stop the route
-        errorHandler(deadLetterChannel("log:errorInRoute?level=ERROR&showProperties=true")
-                .maximumRedeliveries(3)
-                .redeliveryDelay(3000)
-                .backOffMultiplier(2)
-                .retryAttemptedLogLevel(LoggingLevel.ERROR));
+//        errorHandler(deadLetterChannel("log:errorInRoute?level=ERROR&showProperties=true")
+//                .maximumRedeliveries(3)
+//                .redeliveryDelay(3000)
+//                .backOffMultiplier(2)
+//                .retryAttemptedLogLevel(LoggingLevel.ERROR));
 
         onException(PSQLException.class).log(LoggingLevel.ERROR,"PSQLException in the route ${body}")
                 .maximumRedeliveries(3)
@@ -58,10 +62,10 @@ public class SimpleCamelRoute extends RouteBuilder {
                 .backOffMultiplier(2)
                 .retryAttemptedLogLevel(LoggingLevel.ERROR);
 
-        onException(DataException.class).log(LoggingLevel.ERROR, "DataException in the route ${body}");
+        onException(DataException.class).log(LoggingLevel.ERROR, "DataException in the route ${body}").process(mailProcessor);
 
 
-        from(fileConfiguration.getTimerTime())
+        from(fileConfiguration.getTimerTime()).routeId("mainRoute")
                 .log("Timer invoked and the body is " + environment.getProperty("message"))
                 .choice() // if statement
                     .when(header("env").isNotEqualTo("mock")) //When the env is not equal to mock do this This is checking the header we set in test case

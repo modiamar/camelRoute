@@ -19,6 +19,16 @@ public class FileConfiguration {
 
     private String successRoute;
 
+    private  String healthRoute;
+
+    public String getHealthRoute() {
+        return healthRoute;
+    }
+
+    public void setHealthRoute(String healthRoute) {
+        this.healthRoute = healthRoute;
+    }
+
     public String getSuccessRoute() {
         return successRoute;
     }

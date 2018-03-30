@@ -41,6 +41,11 @@
 			<version>1.5.10.RELEASE</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>1.4.3.RELEASE</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring-boot-starter</artifactId>
 			<version>${camel-version}</version>
@@ -86,6 +91,18 @@
 			<artifactId>camel-csv</artifactId>
 			<version>${camel-version}</version>
 			<scope>compile</scope>
+		</dependency>
+
+		<!-- Health check actuator-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http</artifactId>
+			<version>${camel-version}</version>
 		</dependency>
 
 		<dependency>
