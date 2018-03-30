@@ -21,6 +21,16 @@ public class FileConfiguration {
 
     private  String healthRoute;
 
+    private String healthEndpoint;
+
+    public String getHealthEndpoint() {
+        return healthEndpoint;
+    }
+
+    public void setHealthEndpoint(String healthEndpoint) {
+        this.healthEndpoint = healthEndpoint;
+    }
+
     public String getHealthRoute() {
         return healthRoute;
     }

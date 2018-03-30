@@ -2602,3 +2602,26 @@ Verify the connector's configuration, identify and stop any process that's liste
 29-03-2018 20:37:35.554 [http-nio-8095-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring FrameworkServlet 'dispatcherServlet'
 29-03-2018 20:37:35.554 [http-nio-8095-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - FrameworkServlet 'dispatcherServlet': initialization started
 29-03-2018 20:37:35.574 [http-nio-8095-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - FrameworkServlet 'dispatcherServlet': initialization completed in 20 ms
+29-03-2018 20:50:54.681 [Thread-4] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext.doClose - Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@568ff82: startup date [Thu Mar 29 20:37:22 EDT 2018]; root of context hierarchy
+29-03-2018 20:50:54.688 [Thread-4] INFO  o.s.c.s.DefaultLifecycleProcessor.stop - Stopping beans in phase 2147483647
+29-03-2018 20:50:54.688 [Thread-4] INFO  o.a.camel.spring.SpringCamelContext.doStop - Apache Camel 2.20.1 (CamelContext: camel-1) is shutting down
+29-03-2018 20:50:54.690 [Thread-4] INFO  o.a.c.impl.DefaultShutdownStrategy.doShutdown - Starting to graceful shutdown 1 routes (timeout 2 seconds)
+29-03-2018 20:50:54.705 [Camel (camel-1) thread #3 - ShutdownTask] INFO  o.a.c.impl.DefaultShutdownStrategy.run - Waiting as there are still 1 inflight and pending exchanges to complete, timeout in 2 seconds. Inflights per route: [route1 = 1]
+29-03-2018 20:50:54.708 [Camel (camel-1) thread #3 - ShutdownTask] INFO  o.a.c.impl.DefaultShutdownStrategy.logInflightExchanges - There are 1 inflight exchanges:
+	InflightExchange: [exchangeId=ID-amarmodi-HP-Pavilion-Notebook-1522370246771-0-1, fromRouteId=route1, routeId=route1, nodeId=pollEnrich1, elapsed=0, duration=804807]
+29-03-2018 20:50:55.709 [Camel (camel-1) thread #3 - ShutdownTask] INFO  o.a.c.impl.DefaultShutdownStrategy.run - Waiting as there are still 1 inflight and pending exchanges to complete, timeout in 1 seconds. Inflights per route: [route1 = 1]
+29-03-2018 20:50:55.711 [Camel (camel-1) thread #3 - ShutdownTask] INFO  o.a.c.impl.DefaultShutdownStrategy.logInflightExchanges - There are 1 inflight exchanges:
+	InflightExchange: [exchangeId=ID-amarmodi-HP-Pavilion-Notebook-1522370246771-0-1, fromRouteId=route1, routeId=route1, nodeId=pollEnrich1, elapsed=0, duration=805810]
+29-03-2018 20:50:56.699 [Thread-4] WARN  o.a.c.impl.DefaultShutdownStrategy.doShutdown - Timeout occurred during graceful shutdown. Forcing the routes to be shutdown now. Notice: some resources may still be running as graceful shutdown did not complete successfully.
+29-03-2018 20:50:56.699 [Camel (camel-1) thread #3 - ShutdownTask] WARN  o.a.c.impl.DefaultShutdownStrategy.run - Interrupted while waiting during graceful shutdown, will force shutdown now.
+29-03-2018 20:50:56.701 [Thread-4] INFO  o.a.c.impl.DefaultShutdownStrategy.logInflightExchanges - There are 1 inflight exchanges:
+	InflightExchange: [exchangeId=ID-amarmodi-HP-Pavilion-Notebook-1522370246771-0-1, fromRouteId=route1, routeId=route1, nodeId=pollEnrich1, elapsed=0, duration=806800]
+29-03-2018 20:50:56.703 [Thread-4] INFO  o.a.c.impl.DefaultShutdownStrategy.doShutdown - Graceful shutdown of 1 routes completed in 2 seconds
+29-03-2018 20:50:56.734 [Camel (camel-1) thread #3 - ShutdownTask] INFO  o.a.c.impl.DefaultShutdownStrategy.run - Route: route1 shutdown complete, was consuming from: timer://hello?period=10s
+29-03-2018 20:50:56.739 [Thread-4] WARN  o.a.c.impl.DefaultInflightRepository.doStop - Shutting down while there are still 1 inflight exchanges.
+29-03-2018 20:50:56.764 [Thread-4] INFO  o.a.camel.spring.SpringCamelContext.doStop - Apache Camel 2.20.1 (CamelContext: camel-1) uptime 13 minutes
+29-03-2018 20:50:56.765 [Thread-4] INFO  o.a.camel.spring.SpringCamelContext.doStop - Apache Camel 2.20.1 (CamelContext: camel-1) is shutdown in 2.077 seconds
+29-03-2018 20:50:56.766 [Thread-4] INFO  o.s.c.s.DefaultLifecycleProcessor.stop - Stopping beans in phase 0
+29-03-2018 20:50:56.771 [Thread-4] INFO  o.s.b.a.e.jmx.EndpointMBeanExporter.destroy - Unregistering JMX-exposed beans on shutdown
+29-03-2018 20:50:56.773 [Thread-4] INFO  o.s.b.a.e.jmx.EndpointMBeanExporter.unregisterBeans - Unregistering JMX-exposed beans
+29-03-2018 20:50:56.775 [Thread-4] INFO  o.s.j.e.a.AnnotationMBeanExporter.destroy - Unregistering JMX-exposed beans on shutdown
