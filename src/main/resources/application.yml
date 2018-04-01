@@ -40,7 +40,7 @@ spring:
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
           healthRoute: timer:healthRoute?period=10s
-          healthEndpoint:     http://localhost:8095/health
+          healthEndpoint: http://localhost:8095/health
 
 
 message: DEV ENV
@@ -57,6 +57,8 @@ spring:
           timerTime: direct:input
           jdbcDataSource: mock:output1
           successRoute: mock:output2
+          healthRoute: direct:health
+          healthEndpoint: http://localhost:8095/health
   mail:
       host: smtp.gmail.com
       port: 587
@@ -87,8 +89,6 @@ spring:
       properties.mail.smtp.starttls.enable: true
       mailTo: mailsender1256@gmail.com
       mailFrom: mailsender1256@gmail.com
-
-
   camel:
       external :
         properties :
@@ -97,6 +97,8 @@ spring:
           timerTime: timer:hello?period=10s
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
+          healthRoute: timer:healthRoute?period=10s
+          healthEndpoint: http://localhost:8095/health
 
 message: STAGE ENV
 ---
@@ -127,4 +129,6 @@ spring:
           timerTime: timer:hello?period=10s
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
+          healthRoute: timer:healthRoute?period=10s
+          healthEndpoint: http://localhost:8095/health
 message: PROD ENV

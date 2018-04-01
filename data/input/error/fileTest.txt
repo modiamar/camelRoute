@@ -1,3 +1,0 @@
-type,sku#,itemdescription,price
-ADD,,Samsung TV,500
-ADD,101,LG TV,500
