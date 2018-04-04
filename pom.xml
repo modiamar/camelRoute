@@ -56,6 +56,26 @@
 			<version>${camel-version}</version>
 		</dependency>
 
+		<!-- Kafka-->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-kafka-starter</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-kafka</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- Camel Json Parser-->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-gson</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

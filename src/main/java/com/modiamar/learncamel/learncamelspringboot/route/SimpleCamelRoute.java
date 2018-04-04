@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.util.Date;
 
-@Component
+//@Component
 @Slf4j
 public class SimpleCamelRoute extends RouteBuilder {
 

@@ -8,8 +8,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
-@Slf4j
+//@Component
+//@Slf4j
 public class HealthCheckRoute extends RouteBuilder {
 
     private FileConfiguration fileConfiguration;
