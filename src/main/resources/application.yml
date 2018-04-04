@@ -21,12 +21,12 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/localDB
     username: postgres
-    password: modi094237
+    password: password
   mail:
     host: smtp.gmail.com
     port: 587
     username: mailsender1256@gmail.com
-    password: modi094237
+    password: password
     properties.mail.smtp.auth:  true
     properties.mail.smtp.starttls.enable: true
     mailTo: mailsender1256@gmail.com
@@ -36,11 +36,15 @@ spring:
         properties :
           inputFile : file:data/input?delete=true&readLock=none&moveFailed=error
           outputFile : file:data/output
-          timerTime: timer:hello?period=10s
+          timerTime: kafka:inputItemTopic?brokers=localhost:9092&groupId=itemDev&autoOffsetReset=earliest&consumersCount=1
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
           healthRoute: timer:healthRoute?period=10s
           healthEndpoint: http://localhost:8095/health
+
+fromRoute: kafka:inputItemTopic?brokers=localhost:9092&groupId=itemDev&autoOffsetReset=earliest&consumersCount=1
+toRoute: log:?level=INFO&showBody=true
+errorRoute: kafka:errorTopic?brokers=localhost:9092
 
 
 message: DEV ENV
@@ -63,13 +67,15 @@ spring:
       host: smtp.gmail.com
       port: 587
       username: mailsender1256@gmail.com
-      password: modi094237
+      password:
       properties.mail.smtp.auth:  true
       properties.mail.smtp.starttls.enable: true
       mailTo: mailsender1256@gmail.com
       mailFrom: mailsender1256@gmail.com
 
-message: DEV ENV
+fromRoute: direct:input
+toRoute: mock:output
+errorRoute: mock:output1
 
 
 ---
@@ -79,12 +85,12 @@ spring:
       driver-class-name: org.postgresql.Driver
       url: jdbc:postgresql://localhost:5432/localDB
       username: postgres
-      password: modi094237
+      password: password
   mail:
       host: smtp.gmail.com
       port: 587
       username: mailsender1256@gmail.com
-      password: modi094237
+      password: password
       properties.mail.smtp.auth:  true
       properties.mail.smtp.starttls.enable: true
       mailTo: mailsender1256@gmail.com
@@ -94,11 +100,15 @@ spring:
         properties :
           inputFile : file:data/input?delete=true&readLock=none&moveFailed=error
           outputFile : file:data/output
-          timerTime: timer:hello?period=10s
+          timerTime: kafka:inputItemTopic?brokers=localhost:9092&groupId=itemDev&autoOffsetReset=earliest&consumersCount=1
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
           healthRoute: timer:healthRoute?period=10s
           healthEndpoint: http://localhost:8095/health
+
+fromRoute: kafka:inputItemTopic?brokers=localhost:9092&groupId=itemDev&autoOffsetReset=earliest&consumersCount=1
+toRoute: log:?level=INFO&showBody=true
+errorRoute: kafka:errorTopic?brokers=localhost:9092
 
 message: STAGE ENV
 ---
@@ -109,12 +119,12 @@ spring:
       driver-class-name: org.postgresql.Driver
       url: jdbc:postgresql://localhost:5432/localDB
       username: postgres
-      password: modi094237
+      password: password
   mail:
     host: smtp.gmail.com
     port: 587
     username: mailsender1256@gmail.com
-    password: modi094237
+    password: password
     properties.mail.smtp.auth:  true
     properties.mail.smtp.starttls.enable: true
     mailTo: mailsender1256@gmail.com
@@ -126,9 +136,14 @@ spring:
         properties :
           inputFile : file:data/input?delete=true&readLock=none&moveFailed=error
           outputFile : file:data/output
-          timerTime: timer:hello?period=10s
+          timerTime: kafka:inputItemTopic?brokers=localhost:9092&groupId=itemDev&autoOffsetReset=earliest&consumersCount=1
           jdbcDataSource: jdbc:dataSource
           successRoute: file:data/output?fileName=Success.txt
           healthRoute: timer:healthRoute?period=10s
           healthEndpoint: http://localhost:8095/health
+
+fromRoute: kafka:inputItemTopic?brokers=localhost:9092&groupId=itemDev&autoOffsetReset=earliest&consumersCount=1
+toRoute: log:?level=INFO&showBody=true
+errorRoute: kafka:errorTopic?brokers=localhost:9092
+
 message: PROD ENV
